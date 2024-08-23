@@ -29,6 +29,7 @@ function injectButton() {
 
   // Remove the interval
   clearInterval(buttonSearch);
+  buttonSearch = "success";
 }
 
 /**
@@ -40,6 +41,11 @@ It sends a message (type: "generate_labels") to the background.js to generate th
 async function triggerLabelGeneration() {
   // Get the selected order IDs
   let selectedOrderIDs = getSelectedOrderIDs();
+
+  if (selectedOrderIDs.length <= 0) {
+    alert("Bitte wählen Sie mindestens eine Bestellung aus.");
+    return;
+  }
 
   // Send a message to the background.js to generate the labels
   let response = await chrome.runtime.sendMessage({
@@ -73,5 +79,29 @@ function getSelectedOrderIDs() {
   return selectedOrderIDs;
 }
 
-// Set an interval to check for the presence of the order details every second
-let buttonSearch = setInterval(() => injectButton(), 1000);
+function addLocationObserver(callback) {
+  // Options for the observer (which mutations to observe)
+  const config = { attributes: false, childList: true, subtree: false };
+
+  // Create an observer instance linked to the callback function
+  const observer = new MutationObserver(callback);
+
+  // Start observing the target node for configured mutations
+  observer.observe(document.body, config);
+}
+
+let buttonSearch;
+
+function observerCallback() {
+  if (
+    window.location.href.startsWith("https://app.billbee.io/app_v2/order") &&
+    buttonSearch === undefined
+  ) {
+    buttonSearch = setInterval(injectButton, 1000);
+  } else {
+    buttonSearch === undefined;
+  }
+}
+
+addLocationObserver(observerCallback);
+observerCallback();

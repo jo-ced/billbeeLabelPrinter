@@ -15,7 +15,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://*.billbee.io/app_v2/order*"],
+      "matches": ["https://*.billbee.io/app_v2/*"],
       "js": ["content.js"],
       "run_at": "document_end"
     }
