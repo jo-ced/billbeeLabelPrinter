@@ -1,0 +1,23 @@
+{
+  "name": "Billbee Label printer",
+  "description": "This extension adds a button to print the labels for an order in Billbee.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": [
+    "background",
+    "webRequest",
+    "storage",
+    "activeTab",
+    "downloads"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.billbee.io/app_v2/order*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
