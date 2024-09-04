@@ -13141,7 +13141,7 @@ function parseOrder(order) {
 
   let labels = items.map((item) => {
     let label = {
-      RechnungsNr: order.OrderNumber,
+      RechnungsNr: order.InvoiceNumber,
       ArtikelName:
         item.Product.Title.length > 78
           ? item.Product.Title.substring(0, 75) + "..."
